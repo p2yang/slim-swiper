@@ -1,7 +1,7 @@
 {
-  "name": "swiper-src",
-  "version": "5.2.1",
-  "description": "Most modern mobile touch slider and framework with hardware accelerated transitions",
+  "name": "slim-swiper-src",
+  "version": "1.0.0",
+  "description": "A light swiper forked from swiper 5.",
   "scripts": {
     "build:dev": "cross-env NODE_ENV=development gulp build",
     "build:prod": "cross-env NODE_ENV=production gulp build",
@@ -14,9 +14,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/nolimits4web/Swiper.git"
+    "url": "https://github.com/p2yang/slim-swiper.git"
   },
   "keywords": [
+    "light",
     "swiper",
     "swipe",
     "slider",
@@ -32,25 +33,23 @@
     "gallery",
     "plugin"
   ],
-  "author": "Vladimir Kharlampidi",
+  "author": "p2yang",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/nolimits4web/Swiper/issues"
+    "url": "https://github.com/p2yang/slim-swiper/issues"
   },
   "homepage": "http://swiperjs.com",
-  "funding": {
-    "type": "patreon",
-    "url": "https://www.patreon.com/vladimirkharlampidi"
-  },
   "engines": {
     "node": ">= 4.7.0"
   },
   "browserslist": [
-    "Android >= 7",
-    "IOS >= 11",
-    "Safari >= 11",
+    "> 1%",
+    "last 2 versions",
+    "Android >= 4.2",
+    "IOS >= 8",
+    "Safari >= 10",
     "Chrome >= 49",
-    "Firefox >= 31",
+    "Firefox >= 43",
     "Samsung >= 5"
   ],
   "devDependencies": {

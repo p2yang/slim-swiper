@@ -1,9 +1,9 @@
 /**
- * Swiper 5.2.1
- * Most modern mobile touch slider and framework with hardware accelerated transitions
+ * Swiper 1.0.0
+ * A light swiper forked from swiper 5.
  * http://swiperjs.com
  *
- * Copyright 2014-2020 Vladimir Kharlampidi
+ * Copyright 2014-2020 p2yang
  *
  * Released under the MIT License
  *
