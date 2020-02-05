@@ -1,5 +1,3 @@
-import { window } from 'ssr-window';
-
 const Browser = (function Browser() {
   function isSafari() {
     const ua = window.navigator.userAgent.toLowerCase();

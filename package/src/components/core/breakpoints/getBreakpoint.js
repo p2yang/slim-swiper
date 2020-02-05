@@ -1,5 +1,3 @@
-import { window } from 'ssr-window';
-
 export default function (breakpoints) {
   // Get breakpoint for window width
   if (!breakpoints) return undefined;

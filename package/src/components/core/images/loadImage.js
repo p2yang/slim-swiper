@@ -1,5 +1,3 @@
-import { window } from 'ssr-window';
-
 export default function (imageEl, src, srcset, sizes, checkForComplete, callback) {
   let image;
   function onReady() {

@@ -1,5 +1,3 @@
-import { window } from 'ssr-window';
-
 const Utils = {
   deleteProps(obj) {
     const object = obj;

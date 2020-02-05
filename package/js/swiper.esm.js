@@ -11,7 +11,6 @@
  */
 
 import { $, addClass, removeClass, hasClass, toggleClass, attr, removeAttr, data, transform, transition as transition$1, on, off, trigger, transitionEnd as transitionEnd$1, outerWidth, outerHeight, offset, css, each, html, text, is, index, eq, append, prepend, next, nextAll, prev, prevAll, parent, parents, closest, find, children, filter, remove, add, styles } from 'dom7/dist/dom7.modular';
-import { window, document as document$1 } from 'ssr-window';
 
 const Methods = {
   addClass,
@@ -169,7 +168,7 @@ const Utils = {
 const Support = (function Support() {
   return {
     touch: (window.Modernizr && window.Modernizr.touch === true) || (function checkTouch() {
-      return !!((window.navigator.maxTouchPoints > 0) || ('ontouchstart' in window) || (window.DocumentTouch && document$1 instanceof window.DocumentTouch));
+      return !!((window.navigator.maxTouchPoints > 0) || ('ontouchstart' in window) || (window.DocumentTouch && document instanceof window.DocumentTouch));
     }()),
 
     pointerEvents: !!window.PointerEvent && ('maxTouchPoints' in window.navigator) && window.navigator.maxTouchPoints > 0,
@@ -1516,7 +1515,7 @@ function loopCreate () {
     const blankSlidesNum = params.slidesPerGroup - (slides.length % params.slidesPerGroup);
     if (blankSlidesNum !== params.slidesPerGroup) {
       for (let i = 0; i < blankSlidesNum; i += 1) {
-        const blankNode = $(document$1.createElement('div')).addClass(`${params.slideClass} ${params.slideBlankClass}`);
+        const blankNode = $(document.createElement('div')).addClass(`${params.slideClass} ${params.slideBlankClass}`);
         $wrapperEl.append(blankNode);
       }
       slides = $wrapperEl.children(`.${params.slideClass}`);
@@ -1953,11 +1952,11 @@ function onTouchStart (event) {
     let preventDefault = true;
     if ($targetEl.is(data.formElements)) preventDefault = false;
     if (
-      document$1.activeElement
-      && $(document$1.activeElement).is(data.formElements)
-      && document$1.activeElement !== $targetEl[0]
+      document.activeElement
+      && $(document.activeElement).is(data.formElements)
+      && document.activeElement !== $targetEl[0]
     ) {
-      document$1.activeElement.blur();
+      document.activeElement.blur();
     }
 
     const shouldPreventDefault = preventDefault && swiper.allowTouchMove && params.touchStartPreventDefault;
@@ -2021,8 +2020,8 @@ function onTouchMove (event) {
       return;
     }
   }
-  if (data.isTouchEvent && document$1.activeElement) {
-    if (e.target === document$1.activeElement && $(e.target).is(data.formElements)) {
+  if (data.isTouchEvent && document.activeElement) {
+    if (e.target === document.activeElement && $(e.target).is(data.formElements)) {
       data.isMoved = true;
       swiper.allowClick = false;
       return;
@@ -2561,8 +2560,8 @@ function attachEvents() {
   // Touch Events
   if (!Support.touch && Support.pointerEvents) {
     el.addEventListener(touchEvents.start, swiper.onTouchStart, false);
-    document$1.addEventListener(touchEvents.move, swiper.onTouchMove, capture);
-    document$1.addEventListener(touchEvents.end, swiper.onTouchEnd, false);
+    document.addEventListener(touchEvents.move, swiper.onTouchMove, capture);
+    document.addEventListener(touchEvents.end, swiper.onTouchEnd, false);
   } else {
     if (Support.touch) {
       const passiveListener = touchEvents.start === 'touchstart' && Support.passiveListener && params.passiveListeners ? { passive: true, capture: false } : false;
@@ -2573,14 +2572,14 @@ function attachEvents() {
         el.addEventListener(touchEvents.cancel, swiper.onTouchEnd, passiveListener);
       }
       if (!dummyEventAttached) {
-        document$1.addEventListener('touchstart', dummyEventListener);
+        document.addEventListener('touchstart', dummyEventListener);
         dummyEventAttached = true;
       }
     }
     if ((params.simulateTouch && !Device.ios && !Device.android) || (params.simulateTouch && !Support.touch && Device.ios)) {
       el.addEventListener('mousedown', swiper.onTouchStart, false);
-      document$1.addEventListener('mousemove', swiper.onTouchMove, capture);
-      document$1.addEventListener('mouseup', swiper.onTouchEnd, false);
+      document.addEventListener('mousemove', swiper.onTouchMove, capture);
+      document.addEventListener('mouseup', swiper.onTouchEnd, false);
     }
   }
   // Prevent Links Clicks
@@ -2611,8 +2610,8 @@ function detachEvents() {
   // Touch Events
   if (!Support.touch && Support.pointerEvents) {
     el.removeEventListener(touchEvents.start, swiper.onTouchStart, false);
-    document$1.removeEventListener(touchEvents.move, swiper.onTouchMove, capture);
-    document$1.removeEventListener(touchEvents.end, swiper.onTouchEnd, false);
+    document.removeEventListener(touchEvents.move, swiper.onTouchMove, capture);
+    document.removeEventListener(touchEvents.end, swiper.onTouchEnd, false);
   } else {
     if (Support.touch) {
       const passiveListener = touchEvents.start === 'onTouchStart' && Support.passiveListener && params.passiveListeners ? { passive: true, capture: false } : false;
@@ -2625,8 +2624,8 @@ function detachEvents() {
     }
     if ((params.simulateTouch && !Device.ios && !Device.android) || (params.simulateTouch && !Support.touch && Device.ios)) {
       el.removeEventListener('mousedown', swiper.onTouchStart, false);
-      document$1.removeEventListener('mousemove', swiper.onTouchMove, capture);
-      document$1.removeEventListener('mouseup', swiper.onTouchEnd, false);
+      document.removeEventListener('mousemove', swiper.onTouchMove, capture);
+      document.removeEventListener('mouseup', swiper.onTouchEnd, false);
     }
   }
   // Prevent Links Clicks

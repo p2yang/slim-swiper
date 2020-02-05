@@ -17,7 +17,7 @@ function es(components, cb) {
   // Bundle
   rollup.rollup({
     input: './src/swiper.js',
-    external: ['dom7/dist/dom7.modular', 'ssr-window'],
+    external: ['dom7/dist/dom7.modular'],
     plugins: [
       replace({
         delimiters: ['', ''],
@@ -92,7 +92,7 @@ function es(components, cb) {
   // Modular
   rollup.rollup({
     input: './src/swiper.js',
-    external: ['dom7/dist/dom7.modular', 'ssr-window'],
+    external: ['dom7/dist/dom7.modular'],
     plugins: [
       replace({
         delimiters: ['', ''],

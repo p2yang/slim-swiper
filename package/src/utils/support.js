@@ -1,5 +1,3 @@
-import { window, document } from 'ssr-window';
-
 const Support = (function Support() {
   return {
     touch: (window.Modernizr && window.Modernizr.touch === true) || (function checkTouch() {

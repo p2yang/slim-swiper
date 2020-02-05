@@ -1,4 +1,3 @@
-import { window } from 'ssr-window';
 import Utils from '../../../utils/utils';
 
 export default function () {

@@ -1,4 +1,3 @@
-import { window, document } from 'ssr-window';
 import $ from '../../../utils/dom';
 import Utils from '../../../utils/utils';
 

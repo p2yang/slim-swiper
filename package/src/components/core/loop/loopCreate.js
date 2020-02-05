@@ -1,4 +1,3 @@
-import { document } from 'ssr-window';
 import $ from '../../../utils/dom';
 
 export default function () {

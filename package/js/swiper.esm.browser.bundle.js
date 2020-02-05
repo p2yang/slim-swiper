@@ -856,16 +856,16 @@ const Utils = {
     let curTransform;
     let transformMatrix;
 
-    const curStyle = win.getComputedStyle(el, null);
+    const curStyle = window.getComputedStyle(el, null);
 
-    if (win.WebKitCSSMatrix) {
+    if (window.WebKitCSSMatrix) {
       curTransform = curStyle.transform || curStyle.webkitTransform;
       if (curTransform.split(',').length > 6) {
         curTransform = curTransform.split(', ').map((a) => a.replace(',', '.')).join(', ');
       }
       // Some old versions of Webkit choke when 'none' is passed; pass
       // empty string instead in this case
-      transformMatrix = new win.WebKitCSSMatrix(curTransform === 'none' ? '' : curTransform);
+      transformMatrix = new window.WebKitCSSMatrix(curTransform === 'none' ? '' : curTransform);
     } else {
       transformMatrix = curStyle.MozTransform || curStyle.OTransform || curStyle.MsTransform || curStyle.msTransform || curStyle.transform || curStyle.getPropertyValue('transform').replace('translate(', 'matrix(1, 0, 0, 1,');
       matrix = transformMatrix.toString().split(',');
@@ -873,7 +873,7 @@ const Utils = {
 
     if (axis === 'x') {
       // Latest Chrome and webkits Fix
-      if (win.WebKitCSSMatrix) curTransform = transformMatrix.m41;
+      if (window.WebKitCSSMatrix) curTransform = transformMatrix.m41;
       // Crazy IE10 Matrix
       else if (matrix.length === 16) curTransform = parseFloat(matrix[12]);
       // Normal Browsers
@@ -881,7 +881,7 @@ const Utils = {
     }
     if (axis === 'y') {
       // Latest Chrome and webkits Fix
-      if (win.WebKitCSSMatrix) curTransform = transformMatrix.m42;
+      if (window.WebKitCSSMatrix) curTransform = transformMatrix.m42;
       // Crazy IE10 Matrix
       else if (matrix.length === 16) curTransform = parseFloat(matrix[13]);
       // Normal Browsers
@@ -891,7 +891,7 @@ const Utils = {
   },
   parseUrlQuery(url) {
     const query = {};
-    let urlToParse = url || win.location.href;
+    let urlToParse = url || window.location.href;
     let i;
     let params;
     let param;
@@ -939,14 +939,14 @@ const Utils = {
 
 const Support = (function Support() {
   return {
-    touch: (win.Modernizr && win.Modernizr.touch === true) || (function checkTouch() {
-      return !!((win.navigator.maxTouchPoints > 0) || ('ontouchstart' in win) || (win.DocumentTouch && doc instanceof win.DocumentTouch));
+    touch: (window.Modernizr && window.Modernizr.touch === true) || (function checkTouch() {
+      return !!((window.navigator.maxTouchPoints > 0) || ('ontouchstart' in window) || (window.DocumentTouch && document instanceof window.DocumentTouch));
     }()),
 
-    pointerEvents: !!win.PointerEvent && ('maxTouchPoints' in win.navigator) && win.navigator.maxTouchPoints > 0,
+    pointerEvents: !!window.PointerEvent && ('maxTouchPoints' in window.navigator) && window.navigator.maxTouchPoints > 0,
 
     observer: (function checkObserver() {
-      return ('MutationObserver' in win || 'WebkitMutationObserver' in win);
+      return ('MutationObserver' in window || 'WebkitMutationObserver' in window);
     }()),
 
     passiveListener: (function checkPassiveListener() {
@@ -958,7 +958,7 @@ const Support = (function Support() {
             supportsPassive = true;
           },
         });
-        win.addEventListener('testPassiveListener', null, opts);
+        window.addEventListener('testPassiveListener', null, opts);
       } catch (e) {
         // No support
       }
@@ -966,7 +966,7 @@ const Support = (function Support() {
     }()),
 
     gestures: (function checkGestures() {
-      return 'ongesturestart' in win;
+      return 'ongesturestart' in window;
     }()),
   };
 }());
@@ -1289,7 +1289,7 @@ function updateSlides () {
     if (slide.css('display') === 'none') continue; // eslint-disable-line
 
     if (params.slidesPerView === 'auto') {
-      const slideStyles = win.getComputedStyle(slide[0], null);
+      const slideStyles = window.getComputedStyle(slide[0], null);
       const currentTransform = slide[0].style.transform;
       const currentWebKitTransform = slide[0].style.webkitTransform;
       if (currentTransform) {
@@ -2287,7 +2287,7 @@ function loopCreate () {
     const blankSlidesNum = params.slidesPerGroup - (slides.length % params.slidesPerGroup);
     if (blankSlidesNum !== params.slidesPerGroup) {
       for (let i = 0; i < blankSlidesNum; i += 1) {
-        const blankNode = $(doc.createElement('div')).addClass(`${params.slideClass} ${params.slideBlankClass}`);
+        const blankNode = $(document.createElement('div')).addClass(`${params.slideClass} ${params.slideBlankClass}`);
         $wrapperEl.append(blankNode);
       }
       slides = $wrapperEl.children(`.${params.slideClass}`);
@@ -2549,8 +2549,8 @@ var manipulation = {
 };
 
 const Device = (function Device() {
-  const platform = win.navigator.platform;
-  const ua = win.navigator.userAgent;
+  const platform = window.navigator.platform;
+  const ua = window.navigator.userAgent;
 
   const device = {
     ios: false,
@@ -2565,13 +2565,13 @@ const Device = (function Device() {
     firefox: false,
     macos: false,
     windows: false,
-    cordova: !!(win.cordova || win.phonegap),
-    phonegap: !!(win.cordova || win.phonegap),
+    cordova: !!(window.cordova || window.phonegap),
+    phonegap: !!(window.cordova || window.phonegap),
     electron: false,
   };
 
-  const screenWidth = win.screen.width;
-  const screenHeight = win.screen.height;
+  const screenWidth = window.screen.width;
+  const screenHeight = window.screen.height;
 
   const android = ua.match(/(Android);?[\s\/]+([\d.]+)?/); // eslint-disable-line
   let ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
@@ -2635,8 +2635,8 @@ const Device = (function Device() {
   }
 
   // Webview
-  device.webView = !!((iphone || ipad || ipod) && (ua.match(/.*AppleWebKit(?!.*Safari)/i) || win.navigator.standalone))
-    || (win.matchMedia && win.matchMedia('(display-mode: standalone)').matches);
+  device.webView = !!((iphone || ipad || ipod) && (ua.match(/.*AppleWebKit(?!.*Safari)/i) || window.navigator.standalone))
+    || (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
   device.webview = device.webView;
   device.standalone = device.webView;
 
@@ -2655,7 +2655,7 @@ const Device = (function Device() {
   }
 
   // Pixel Ratio
-  device.pixelRatio = win.devicePixelRatio || 1;
+  device.pixelRatio = window.devicePixelRatio || 1;
 
   // Export object
   return device;
@@ -2700,7 +2700,7 @@ function onTouchStart (event) {
   if (
     edgeSwipeDetection
     && ((startX <= edgeSwipeThreshold)
-    || (startX >= win.screen.width - edgeSwipeThreshold))
+    || (startX >= window.screen.width - edgeSwipeThreshold))
   ) {
     return;
   }
@@ -2724,11 +2724,11 @@ function onTouchStart (event) {
     let preventDefault = true;
     if ($targetEl.is(data.formElements)) preventDefault = false;
     if (
-      doc.activeElement
-      && $(doc.activeElement).is(data.formElements)
-      && doc.activeElement !== $targetEl[0]
+      document.activeElement
+      && $(document.activeElement).is(data.formElements)
+      && document.activeElement !== $targetEl[0]
     ) {
-      doc.activeElement.blur();
+      document.activeElement.blur();
     }
 
     const shouldPreventDefault = preventDefault && swiper.allowTouchMove && params.touchStartPreventDefault;
@@ -2792,8 +2792,8 @@ function onTouchMove (event) {
       return;
     }
   }
-  if (data.isTouchEvent && doc.activeElement) {
-    if (e.target === doc.activeElement && $(e.target).is(data.formElements)) {
+  if (data.isTouchEvent && document.activeElement) {
+    if (e.target === document.activeElement && $(e.target).is(data.formElements)) {
       data.isMoved = true;
       swiper.allowClick = false;
       return;
@@ -3332,8 +3332,8 @@ function attachEvents() {
   // Touch Events
   if (!Support.touch && Support.pointerEvents) {
     el.addEventListener(touchEvents.start, swiper.onTouchStart, false);
-    doc.addEventListener(touchEvents.move, swiper.onTouchMove, capture);
-    doc.addEventListener(touchEvents.end, swiper.onTouchEnd, false);
+    document.addEventListener(touchEvents.move, swiper.onTouchMove, capture);
+    document.addEventListener(touchEvents.end, swiper.onTouchEnd, false);
   } else {
     if (Support.touch) {
       const passiveListener = touchEvents.start === 'touchstart' && Support.passiveListener && params.passiveListeners ? { passive: true, capture: false } : false;
@@ -3344,14 +3344,14 @@ function attachEvents() {
         el.addEventListener(touchEvents.cancel, swiper.onTouchEnd, passiveListener);
       }
       if (!dummyEventAttached) {
-        doc.addEventListener('touchstart', dummyEventListener);
+        document.addEventListener('touchstart', dummyEventListener);
         dummyEventAttached = true;
       }
     }
     if ((params.simulateTouch && !Device.ios && !Device.android) || (params.simulateTouch && !Support.touch && Device.ios)) {
       el.addEventListener('mousedown', swiper.onTouchStart, false);
-      doc.addEventListener('mousemove', swiper.onTouchMove, capture);
-      doc.addEventListener('mouseup', swiper.onTouchEnd, false);
+      document.addEventListener('mousemove', swiper.onTouchMove, capture);
+      document.addEventListener('mouseup', swiper.onTouchEnd, false);
     }
   }
   // Prevent Links Clicks
@@ -3382,8 +3382,8 @@ function detachEvents() {
   // Touch Events
   if (!Support.touch && Support.pointerEvents) {
     el.removeEventListener(touchEvents.start, swiper.onTouchStart, false);
-    doc.removeEventListener(touchEvents.move, swiper.onTouchMove, capture);
-    doc.removeEventListener(touchEvents.end, swiper.onTouchEnd, false);
+    document.removeEventListener(touchEvents.move, swiper.onTouchMove, capture);
+    document.removeEventListener(touchEvents.end, swiper.onTouchEnd, false);
   } else {
     if (Support.touch) {
       const passiveListener = touchEvents.start === 'onTouchStart' && Support.passiveListener && params.passiveListeners ? { passive: true, capture: false } : false;
@@ -3396,8 +3396,8 @@ function detachEvents() {
     }
     if ((params.simulateTouch && !Device.ios && !Device.android) || (params.simulateTouch && !Support.touch && Device.ios)) {
       el.removeEventListener('mousedown', swiper.onTouchStart, false);
-      doc.removeEventListener('mousemove', swiper.onTouchMove, capture);
-      doc.removeEventListener('mouseup', swiper.onTouchEnd, false);
+      document.removeEventListener('mousemove', swiper.onTouchMove, capture);
+      document.removeEventListener('mouseup', swiper.onTouchEnd, false);
     }
   }
   // Prevent Links Clicks
@@ -3496,7 +3496,7 @@ function getBreakpoint (breakpoints) {
   points.sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
   for (let i = 0; i < points.length; i += 1) {
     const point = points[i];
-    if (point <= win.innerWidth) {
+    if (point <= window.innerWidth) {
       breakpoint = point;
     }
   }
@@ -3564,7 +3564,7 @@ function loadImage (imageEl, src, srcset, sizes, checkForComplete, callback) {
   }
   if (!imageEl.complete || !checkForComplete) {
     if (src) {
-      image = new win.Image();
+      image = new window.Image();
       image.onload = onReady;
       image.onerror = onReady;
       if (sizes) {
@@ -4264,13 +4264,13 @@ var Support$1 = {
 
 const Browser = (function Browser() {
   function isSafari() {
-    const ua = win.navigator.userAgent.toLowerCase();
+    const ua = window.navigator.userAgent.toLowerCase();
     return (ua.indexOf('safari') >= 0 && ua.indexOf('chrome') < 0 && ua.indexOf('android') < 0);
   }
   return {
-    isEdge: !!win.navigator.userAgent.match(/Edge/g),
+    isEdge: !!window.navigator.userAgent.match(/Edge/g),
     isSafari: isSafari(),
-    isUiWebView: /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(win.navigator.userAgent),
+    isUiWebView: /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(window.navigator.userAgent),
   };
 }());
 
@@ -4306,21 +4306,21 @@ var Resize = {
     init() {
       const swiper = this;
       // Emit resize
-      win.addEventListener('resize', swiper.resize.resizeHandler);
+      window.addEventListener('resize', swiper.resize.resizeHandler);
 
       // Emit orientationchange
-      win.addEventListener('orientationchange', swiper.resize.orientationChangeHandler);
+      window.addEventListener('orientationchange', swiper.resize.orientationChangeHandler);
     },
     destroy() {
       const swiper = this;
-      win.removeEventListener('resize', swiper.resize.resizeHandler);
-      win.removeEventListener('orientationchange', swiper.resize.orientationChangeHandler);
+      window.removeEventListener('resize', swiper.resize.resizeHandler);
+      window.removeEventListener('orientationchange', swiper.resize.orientationChangeHandler);
     },
   },
 };
 
 const Observer = {
-  func: win.MutationObserver || win.WebkitMutationObserver,
+  func: window.MutationObserver || window.WebkitMutationObserver,
   attach(target, options = {}) {
     const swiper = this;
 
@@ -4337,10 +4337,10 @@ const Observer = {
         swiper.emit('observerUpdate', mutations[0]);
       };
 
-      if (win.requestAnimationFrame) {
-        win.requestAnimationFrame(observerUpdate);
+      if (window.requestAnimationFrame) {
+        window.requestAnimationFrame(observerUpdate);
       } else {
-        win.setTimeout(observerUpdate, 0);
+        window.setTimeout(observerUpdate, 0);
       }
     });
 
